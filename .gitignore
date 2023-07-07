@@ -1,0 +1,5 @@
+[Folder]
+.vscode/*
+.venv/*
+.vs/*
+__pycache__/*

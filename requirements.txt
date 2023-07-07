@@ -1,0 +1,6 @@
+gunicorn
+BeautifulSoup4
+Flask
+lxml
+requests
+git+https://github.com/dutapi-library/dutapi.python.git
