@@ -3,4 +3,4 @@ BeautifulSoup4
 Flask
 lxml
 requests
-git+https://github.com/dutapi-library/dutapi.python.git
+git+https://github.com/ZoeMeow1027/dutwrapper#egg=dutwrapper&subdirectory=src/python

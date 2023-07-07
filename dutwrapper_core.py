@@ -1,5 +1,5 @@
 
-import dutapi
+import dutwrapper
 from flask import Flask, redirect, url_for, request, Response
 import json
 
@@ -8,9 +8,9 @@ def Login(username: str, password: str):
     repText = None
     repCode = 200
     repType = "text/html; charset=utf-8"
-    token = dutapi.GenerateSessionID()
+    token = dutwrapper.GenerateSessionID()
     if username != None and password != None:
-        repText = dutapi.Login(token, username, password)
+        repText = dutwrapper.Login(token, username, password)
         repCode = 200
         if repText['logged_in'] == False:
             repCode = 401
@@ -27,7 +27,7 @@ def Logout(sessionid: str):
     repCode = 200
     repType = "text/html; charset=utf-8"
     if sessionid != None:
-        repText = dutapi.Logout(sessionid)
+        repText = dutwrapper.Logout(sessionid)
         if repText['logged_in'] == True:
             repCode = 401
         repText = json.dumps(repText, ensure_ascii=False).encode('UTF-8')
@@ -43,8 +43,8 @@ def SubjectSchedule(sessionid: str, year: int, semester: int, insummer: int):
     repCode = 200
     repType = "application/text"
     if sessionid != None and year != None and semester != None and insummer != None:
-        if dutapi.IsLoggedIn(sessionid)['logged_in'] == True:
-            repText = json.dumps(dutapi.GetSubjectSchedule(sessionid, year, semester, True if insummer == 1 else False), ensure_ascii=False).encode('UTF-8')
+        if dutwrapper.IsLoggedIn(sessionid)['logged_in'] == True:
+            repText = json.dumps(dutwrapper.GetSubjectSchedule(sessionid, year, semester, True if insummer == 1 else False), ensure_ascii=False).encode('UTF-8')
             repCode = 200
             repType = "application/json"            
         else:
@@ -61,8 +61,8 @@ def SubjectFee(sessionid: str, year: int, semester: int, insummer: int):
     repCode = 200
     repType = "text/html; charset=utf-8"
     if sessionid != None and year != None and semester != None and insummer != None:
-        if dutapi.IsLoggedIn(sessionid)['logged_in'] == True:
-            repText = json.dumps(dutapi.GetSubjectFee(sessionid, year, semester, True if insummer == 1 else False), ensure_ascii=False).encode('UTF-8')
+        if dutwrapper.IsLoggedIn(sessionid)['logged_in'] == True:
+            repText = json.dumps(dutwrapper.GetSubjectFee(sessionid, year, semester, True if insummer == 1 else False), ensure_ascii=False).encode('UTF-8')
             repCode = 200
             repType = "application/json"            
         else:
@@ -78,8 +78,8 @@ def GetAccInfo(sessionid: str):
     repCode = 200
     repType = "text/html; charset=utf-8"
     if sessionid != None:
-        if dutapi.IsLoggedIn(sessionid)['logged_in'] == True:
-            repText = json.dumps(dutapi.GetAccountInformation(sessionid), ensure_ascii=False).encode('UTF-8')
+        if dutwrapper.IsLoggedIn(sessionid)['logged_in'] == True:
+            repText = json.dumps(dutwrapper.GetAccountInformation(sessionid), ensure_ascii=False).encode('UTF-8')
             repCode = 200
             repType = "application/json"            
         else:
@@ -91,7 +91,7 @@ def GetAccInfo(sessionid: str):
     return Response(repText, status=repCode, mimetype=repType)
 
 # Get news
-def GetNews(type: dutapi.NewsType, page: int):
+def GetNews(type: dutwrapper.NewsType, page: int):
     repText = None
     repCode = 200
     repType = "application/text"
@@ -105,7 +105,7 @@ def GetNews(type: dutapi.NewsType, page: int):
             else:
                 page = int(page)
                 if page < 1: page = 1
-            repText = json.dumps(dutapi.GetNews(dutapi.NewsType.Global if type.lower() == "global" else dutapi.NewsType.Subjects, page), ensure_ascii=False).encode('UTF-8')
+            repText = json.dumps(dutwrapper.GetNews(dutwrapper.NewsType.Global if type.lower() == "global" else dutwrapper.NewsType.Subjects, page), ensure_ascii=False).encode('UTF-8')
             repType = "application/json"
     except:
         repText = 'Internal Server Error!'
@@ -120,10 +120,10 @@ def GetWeekRange(type: str):
     if type == None or len(type) == 0:
         raise Exception("Invalid value!")
     elif type.lower() == "current":
-        repText = dutapi.GetCurrentWeek()
+        repText = dutwrapper.GetCurrentWeek()
         repType = "application/text"
         return Response(repText, status=repCode, mimetype=repType)
     elif type.lower() == "week":
-        repText = dutapi.SCHOOLYEAR_START
+        repText = dutwrapper.SCHOOLYEAR_START
         repType = "application/json"
         return Response(repText, status=repCode, mimetype=repType)
