@@ -57,7 +57,7 @@ def getUtils():
           
 @app.route('/')
 def index():
-    return Response("dutwrapper", status=200, mimetype="text/html; charset=utf-8")
+    return redirect("https://github.com/ZoeMeow1027/dutwrapper-apiserver", code=302)
 
 if __name__ == '__main__':
     app.run()
