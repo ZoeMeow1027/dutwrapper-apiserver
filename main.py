@@ -17,13 +17,13 @@ def account():
             if request.method == 'POST':
                 return dutwrapper_core.Logout(request.args.get('sid'))
         elif sType.lower() == 'subjectschedule':
-            if request.method == 'POST':
+            if request.method == 'GET':
                 return dutwrapper_core.SubjectSchedule(request.args.get('sid'), request.args.get('year'), request.args.get('semester'), request.args.get('insummer'))
         elif sType.lower() == 'subjectfee':
-            if request.method == 'POST':
+            if request.method == 'GET':
                 return dutwrapper_core.SubjectFee(request.args.get('sid'), request.args.get('year'), request.args.get('semester'), request.args.get('insummer'))
         elif sType.lower() == 'accinfo':
-            if request.method == 'POST':
+            if request.method == 'GET':
                 return dutwrapper_core.GetAccInfo(request.args.get('sid'))
         else:
             return Response('Bad request!', status=400, mimetype='text/html; charset=utf-8')
